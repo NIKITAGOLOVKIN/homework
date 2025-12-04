@@ -1,27 +1,27 @@
+#pragma once
 #include <stdlib.h>
 
 
-
-typedef struct StackBlock {
+typedef struct StackNode {
     char value;
-    struct StackBlock *next;
-} Block;
+    struct StackNode *next;
+} Node;
 
 
 
 
-Block* newStack(void);
+Node* newStack(void);
 
-Block* push(Block *top, char value);
-
-
-Block* pop(Block *top);
+Node* push(Node *top, char value);
 
 
-char peek(Block *top);
+Node* pop(Node *top);
 
 
-void show(Block *top);
+char peek(Node *top);
 
 
-void deleteStack(Block *top);
+void show(Node *top);
+
+
+void deleteStack(Node *top);
