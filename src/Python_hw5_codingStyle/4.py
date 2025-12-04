@@ -42,8 +42,6 @@ def exchange_of_coins(amount, coin1, coin2, coin3):
 
 
 
-
-
 NAME = "nikita"
 SURNAME = "golovkin"                                   #определяем монеты
 PATRONYMIC = "viktorovic"
