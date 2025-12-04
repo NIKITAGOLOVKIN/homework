@@ -1,20 +1,15 @@
-select = ["ALL"]
+#lint.select = ["ALL"]
 
-ignore = [
-    "ANN",
-    "PLR2004",
-]
+#line-length = 120
 
-line-length = 120
+#fix = true
 
-fix = true
+#show-fixes = true
 
-show-fixes = true
-
-exclude = [
-    ".git",
-    "__pycache__",
-    ".ruff_cache",
-    "venv",
-    "node_modules"
-]
+#exclude = [
+#    ".git",
+#    "__pycache__",
+#    ".ruff_cache",
+#    "venv",
+#    "node_modules"
+#]
