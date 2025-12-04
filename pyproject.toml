@@ -1,0 +1,23 @@
+[tool.ruff]
+  line-length = 120 
+
+[tool.ruff.lint]
+  select = [
+      "F",
+      "W",
+      "E",
+      "I",
+      "N",
+      "UP",
+      "C4",
+      "FA",
+      "ISC",
+      "ICN",
+      "RET",
+      "SIM",
+  ]
+
+  ignore = [
+      "RUF003",
+      "T201",
+  ]
