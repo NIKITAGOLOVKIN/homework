@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "quickSort.h"
 
 #define MAXSIZE 100
 
@@ -12,11 +13,11 @@ int main()
     int count = 0;
     printf("Введите до %d чисел через пробел ", MAXSIZE);
     for (int i = 0; i < MAXSIZE; ++i) {              //в цикле заполняем массив
-	++countOfDigit;        //считаем сколько чисел ввел пользователь
-	scanf("%d", &input[i]);
-	if ((c = getchar()) == '\n') {              //если встретили enter прерываем цикл
-	    break;
-	}
+        ++countOfDigit;        //считаем сколько чисел ввел пользователь
+        scanf("%d", &input[i]);
+        if ((c = getchar()) == '\n') {              //если встретили enter прерываем цикл
+            break;
+        }
     }
 
     int *result = (int*)malloc(countOfDigit * sizeof(int));  //создаем новый массив только с введеными числами
@@ -29,19 +30,19 @@ int main()
 
     printf("Массив после сортировки ");
     for (int i = 0; i < countOfDigit; ++i) {   //печать массива
-	printf("%d ", result[i]);
+        printf("%d ", result[i]);
     }
     printf("\n");
 
 
     for (int i = 0; i < countOfDigit; ++i) {   //подсчет элементов изменивших свое место
-	if (input[i] != result[i]) {
-	    ++count;
-	}
+        if (input[i] != result[i]) {
+            ++count;
+        }
     }
 
 
     printf("Свою позицию изменили %d элементов\n", count);
     free(result);
-    return 0;
+    return count;
 }
