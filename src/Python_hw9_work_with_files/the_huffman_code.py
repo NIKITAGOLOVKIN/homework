@@ -55,7 +55,7 @@ def encoding_file(input_path, output_path):
     with open(output_path, 'w') as file:
         file.write(str(len(table)) + '\n')  # Записываем размер таблицы
         for char, code in table.items():
-            file.write(f"{safe_char}:{code}\n")
+            file.write(f"{char}:{code}\n")
         file.write(encoded_str)
 
 def decoding_file(input_path, output_path):
