@@ -6,38 +6,34 @@ def encode(msg: str):
 
     nodes = []
     for char, count in table.items():
-        nodes.append((char, count))     # формируем список с узлами
-    nodes.sort(key=lambda x: x[1])
+        nodes.append((count, char, None, None))     # формируем список с узлами
+    nodes.sort(key=lambda x: x[0])
 
     while len(nodes) > 1:
         left = nodes.pop(0)
         right = nodes.pop(0)                                    # формируем что-то вроде дерева - кортеж в котором
-        nodes.append((None, left[1] + right[1], left, right))   # хранятся частоты символов и все зависимости между
-        nodes.sort(key=lambda x: x[1])                          # узлами и листьями
+        nodes.append((left[0] + right[0], None, left, right))   # хранятся частоты символов и все зависимости между
+        nodes.sort(key=lambda x: x[0])                          # узлами и листьями
 
     table = get_code(nodes[0])
     encode_str = "".join(table[char] for char in msg)    # формируем выходную строку
     return encode_str, table
 
-
-
 def get_code(node):
-    if node[0] is not None:     # если в кортеже один символ возвращаем 0
-        return {node[0]: "0"}
-
     codes = {}
 
     def coding(current, code):
-        if current[0] is not None:
-            codes[current[0]] = code
+        if current[1] is not None:
+            codes[current[1]] = code
         else:
             coding(current[2], code + "0")    # рекурсивно проходим по дереву и строим код
             coding(current[3], code + "1")
+
+    if node[1] is not None:
+        return {node[1]: "0"}
+
     coding(node, "")
-
     return codes       # возвращаем словарь с символами и их кодами
-
-
 
 def decode(code, table):
     reverse_table = {char: i for i, char in table.items()}  # формируем перевернутый словарь код->символ
@@ -51,56 +47,36 @@ def decode(code, table):
 
     return decode_str
 
+def encoding_file(input_path, output_path):
+    with open(input_path, 'r') as file:
+        msg = file.read()
+    encoded_str, table = encode(msg)
+
+    with open(output_path, 'w') as file:
+        file.write(str(len(table)) + '\n')  # Записываем размер таблицы
+        for char, code in table.items():
+            file.write(f"{safe_char}:{code}\n")
+        file.write(encoded_str)
+
+def decoding_file(input_path, output_path):
+    with open(input_path, 'r') as file:
+        count = int(file.readline().strip())  # Читаем размер таблицы
+
+        table = {}
+        for i in range(count):
+            line = file.readline().rstrip('\n')
+            char, code = line.split(':', 1)  # Делим только по первому двоеточию
+            table[char] = code
+        encoded_str = file.read()
+    decoded_str = decode(encoded_str, table)
+    with open(output_path, 'w') as file:
+        file.write(decoded_str)
+    return decoded_str
 
 
-def encoding_file(file):                   #функция для кодирования текстового файла
-    encode_str, table = encode(file.read())
-    return encode_str, table
-
-
-def decoding_file(file, count):            #функция для декодирования текстового файла
-    table = {}
-    arr = []
-    for i in range(count):
-        arr.append(file.readline().replace("\n", "").split(": "))
-
-    for i in arr:
-        table[i[0]] = i[1]
-
-    s = file.readline()
-    msg = decode(s, table)
-    return msg
-
-
-
-
-
-
-msg = "ABRACADABRA"
-print(f"Исходная строка: {msg}")
-encode_str, table = encode(msg)
-print(f"Закодированная строка: {encode_str}")
-
-decode_str = decode(encode_str, table)
-print(f"Декодированная строка: {decode_str}")
-
-
-
-
-with open("input.txt") as file:         #читаем файл и кодируем его
-    encode_file, table = encoding_file(file)
-
-with open("output.txt", "w") as file:
-    file.writelines(f"{char}: {code}\n" for char, code in table.items())       #записываем таблицу и код в output
-    file.write(encode_file)
-count_of_symbols = len(table.keys())
-
-
-
-
-with open("output.txt") as file:
-    decode_file = decoding_file(file, count_of_symbols)   #читаем таблицу и код из output и декодируем
-
-
-with open("input.txt", "w") as file:                      #записываем результат в input
-    file.write(decode_file)
+if __name__ == "__main__":
+    # Пример использования (можно удалить перед сдачей)
+    test_msg = input("Введите строку для тестирования: ")
+    encoded, table = encode(test_msg)
+    print("Закодировано:", encoded)
+    print("Декодировано:", decode(encoded, table))
