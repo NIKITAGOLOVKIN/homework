@@ -1,49 +1,52 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "stack.h"
 
-
-int main(void)
+bool areBracketsMatch(char open, char close)
 {
-    char s[] = "{    [1234576(1111   fwgqgqfd)]qjfbkhbfkh12878e f+4d 92+}";
-    int len = strlen(s);
-    char buff;
+    return (open == '{' && close == '}') ||
+           (open == '[' && close == ']') ||
+           (open == '(' && close == ')');
+}
+
+bool isBalanced(char *s)
+{
     Node *top = newStack();
+    int len = strlen(s);
+
     for (int i = 0; i < len; i++) {
         switch (s[i]) {
             case '{': case '[': case '(':
                 top = push(top, s[i]);
                 break;
-
-
             case '}': case ']': case ')':
-                buff = peek(top);
+                char buff = peek(top);
                 if (buff == 0) {
-                    printf("Стек пуст, а скобки еще есть\n");
-                    printf("Баланс не выполнен\n");
                     deleteStack(top);
-                    return 0;
+                    return false;
                 }
-
-                if ((buff == '{' && s[i] == '}') || (buff == '[' && s[i] == ']') || (buff == '(' && s[i] == ')')) {
+                if (areBracketsMatch(buff, s[i])) {
                     top = pop(top);
-                    break;
-                }
-                else {
-                    printf("Баланс не выполнен\n");
+                } else {
                     deleteStack(top);
-                    return 0;
+                    return false;
                 }
         }
     }
-    if (peek(top) == 0) {
-        printf("Баланс выполнен\n");
-        deleteStack(top);
-    }
 
+    bool balanced = (peek(top) == 0);
+    deleteStack(top);
+    return balanced;
+}
+
+int main(void)
+{
+    char test[] = "{    [1234576(1111   fwgqgqfd)]qjfbkhbfkh12878e f+4d 92+}";
+    if (isBalanced(&test))
+        printf("Баланс выполнен\n");
     else
         printf("Баланс не выполнен\n");
-        deleteStack(top);
     return 0;
 }
