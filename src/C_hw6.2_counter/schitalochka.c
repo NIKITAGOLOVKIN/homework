@@ -1,12 +1,11 @@
 #include <stdio.h>
-//#include <stdlib.h>
+// #include <stdlib.h>
 #include "list.h"
 
-
-int schitalochka(Node *top, int n)
+int schitalochka(Node* top, int n)
 {
-    Node *current = top;
-    Node *prev = NULL;
+    Node* current = top;
+    Node* prev = NULL;
 
     while (current->next != current) {
         for (int count = 1; count < n; count++) {
@@ -25,7 +24,6 @@ int schitalochka(Node *top, int n)
     return survivor;
 }
 
-
 int main(void)
 {
     int warriors;
@@ -34,7 +32,7 @@ int main(void)
     scanf("%d", &warriors);
     printf("Убиваем каждого n-ого, где n = ");
     scanf("%d", &n);
-    Node *top = createList(warriors);
+    Node* top = createList(warriors);
     int survivor = schitalochka(top, n);
     printf("Чтобы выжить, нужно стоять на %d месте\n", survivor);
 

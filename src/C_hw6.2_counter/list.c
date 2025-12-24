@@ -1,12 +1,11 @@
-#include <stdio.h>
 #include "list.h"
-
+#include <stdio.h>
 
 Node* createList(int n)
 {
-    Node *top = malloc(sizeof(Node));
+    Node* top = malloc(sizeof(Node));
     top->value = 1;
-    Node *current = top;
+    Node* current = top;
 
     for (int i = 2; i <= n; i++) {
         current->next = malloc(sizeof(Node));
@@ -18,15 +17,15 @@ Node* createList(int n)
     return top;
 }
 
-void deleteList(Node *top)
+void deleteList(Node* top)
 {
-    Node *current = top;
+    Node* current = top;
     while (current->next != top) {
         current = current->next;
     }
     current->next = NULL;
     current = top;
-    while(current != NULL) {
+    while (current != NULL) {
         top = top->next;
         free(current);
         current = top;
