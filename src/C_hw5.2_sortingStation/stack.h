@@ -1,27 +1,19 @@
+#pragma once
 #include <stdlib.h>
 
-
-
-typedef struct StackBlock {       //структура блока стека
+typedef struct StackNode {
     char value;
-    struct StackBlock *next;
-} Block;
+    struct StackNode* next;
+} Node;
 
+Node* newStack(void); // создать стек
 
+Node* push(Node* top, char value); // отправить значение в стек
 
+Node* pop(Node* top); // удалить элемент стека
 
-Block* newStack(void);     //создать стек
+char peek(Node* top); // вернуть значение из стека
 
-Block* push(Block *top, char value);     //отправить значение в стек
+void show(Node* top); // вывести весь стек
 
-
-Block* pop(Block *top);    //удалить элемент стека
-
-
-char peek(Block *top);     //вернуть значение из стека
-
-
-void show(Block *top);     //вывести весь стек
-
-
-void deleteStack(Block *top);   //удалить стек
+void deleteStack(Node* top); // удалить стек

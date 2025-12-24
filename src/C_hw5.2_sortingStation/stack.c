@@ -1,64 +1,55 @@
+#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
 
-
-
-Block* newStack(void)
+Node* newStack(void)
 {
     return NULL;
 }
 
-
-Block* push(Block *top, char value)
+Node* push(Node* top, char value)
 {
-    Block *p = malloc(sizeof(Block));
+    Node* p = malloc(sizeof(Node));
     p->value = value;
     p->next = top;
     return p;
 }
 
-
-Block* pop(Block *top)
+Node* pop(Node* top)
 {
     if (top == NULL)
-	return top;
+        return top;
 
-    Block *p = top->next;
+    Node* p = top->next;
     free(top);
     return p;
 }
 
-
-char peek(Block *top)
+char peek(Node* top)
 {
     if (top == NULL) {
-	return 0;
-    }
-    else
-	return top->value;
+        return 0;
+    } else
+        return top->value;
 }
 
-
-void show(Block *top)
+void show(Node* top)
 {
     printf("Стек: \n");
-    Block *p = top;
+    Node* p = top;
     while (p != NULL) {
-	printf("%c\n", p->value);
-	p = p->next;
+        printf("%c\n", p->value);
+        p = p->next;
     }
     printf("\n");
 }
 
-
-void deleteStack(Block *top)
+void deleteStack(Node* top)
 {
     while (top != NULL) {
-	Block *p = top;
-	top = top->next;
-	free(p);
+        Node* p = top;
+        top = top->next;
+        free(p);
     }
     free(top);
-    printf("Стек удален\n");
 }
