@@ -1,6 +1,5 @@
 ---
-Language:        C
-# BasedOnStyle:  WebKit
+BasedOnStyle:  WebKit
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignArrayOfStructures: None
