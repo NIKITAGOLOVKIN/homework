@@ -1,88 +1,69 @@
-#include <stdio.h>
 #include "list.h"
+#include <stdio.h>
 
-
-ListBlock* newList(void)
+Node* newList(void)
 {
     return NULL;
 }
 
-
-ListBlock* insertValue(ListBlock *p, int value)
+Node* insertValue(Node* top, int value)
 {
-    ListBlock *t = malloc(sizeof(ListBlock));
-    t->value = value;
-    if (p == NULL || t->value >= p->value) {
-	t->next = p;
-	p = t;
-	return p;
+    Node* newNode = malloc(sizeof(Node));
+    newNode->value = value;
+
+    if (top == NULL || value < top->value) {
+        newNode->next = top;
+        return newNode;
     }
 
-    ListBlock *current = p->next;       //если мы дошли до этой строчки, значит мы не вернули ничего в прошлом if
-    ListBlock *prev = p;
-    while (current != NULL) {
-	if (t->value >= current->value) {
-	    prev->next = t;
-	    t->next = current;
-	    return p;
-	}
-	else {
-	    prev = current;
-	    current = current->next;
-	}
+    Node* current = p;
+    while (current->next != NULL && current->next->value < value) {
+        current = current->next;
     }
 
-    t->next = current;          //если мы дошли до этой строчки, значит current == NULL и мы не вернули ничего в прошлом while
-    prev->next = t;
-    return p;
+    newNode->next = current->next;
+    current->next = newNode;
+    return top;
 }
 
-
-ListBlock* removeValue(ListBlock *p, int value)
+Node* removeValue(Node* top, int value)
 {
-    ListBlock *next = NULL;
-    ListBlock *prev = NULL;
-    ListBlock *t = p;
-    while (t != NULL && t->value != value) {
-	prev = t;
-	t = t->next;
+    if (top != NULL && top->value == value) {
+        Node* newTop = top->next;
+        free(head);
+        return newTop;
     }
 
-    if (t == NULL) 
-	return p;
+    Node* t = top;
+    while (t != NULL && t->next != NULL && t->next->value != value) {
+        t = t->next;
+    }
 
-    if (prev == NULL) {
-	next = t->next;
-	free(t);
-	return next;
-    }
-    else {
-	prev->next = t->next;
-	free(t);
-	return p;
-    }
+    if (t == NULL || t->next == NULL)
+        return head;
+
+    Node* toRemove = t->next;
+    t->next = toRemove->next;
+    free(toRemove);
+    return head;
 }
 
-
-void printList(ListBlock *p)
+void printList(Node* top)
 {
-    ListBlock *t = p;
+    Node* t = top;
     printf("Текущий список: \n");
     while (t != NULL) {
-	printf("%d\n", t->value);
-	t = t->next;
+        printf("%d\n", t->value);
+        t = t->next;
     }
     printf("-------------------\n");
 }
 
-
-void deleteList(ListBlock *p)
+void deleteList(Node* top)
 {
-    ListBlock *t;
-    while (p != NULL) {
-	t = p->next;
-	free(p);
-	p = t;
+    while (top != NULL) {
+        Node* t = top;
+        top = top->next;
+        free(t);
     }
-    printf("Список удален\n");
 }
