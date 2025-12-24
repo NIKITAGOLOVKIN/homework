@@ -1,38 +1,42 @@
 #include <stdio.h>
+//#include <stdlib.h>
 #include "list.h"
+
+
+int schitalochka(Node *top, int n)
+{
+    Node *current = top;
+    Node *prev = NULL;
+
+    while (current->next != current) {
+        for (int count = 1; count < n; count++) {
+            prev = current;
+            current = current->next;
+        }
+
+        prev->next = current->next;
+        free(current);
+        current = prev->next;
+    }
+
+    int survivor = current->value;
+    free(current);
+    top = NULL;
+    return survivor;
+}
 
 
 int main(void)
 {
     int warriors;
     int n;
-    int k;
     printf("Введите количество воинов: ");
     scanf("%d", &warriors);
     printf("Убиваем каждого n-ого, где n = ");
     scanf("%d", &n);
+    Node *top = createList(warriors);
+    int survivor = schitalochka(top, n);
+    printf("Чтобы выжить, нужно стоять на %d месте\n", survivor);
 
-    ListBlock *p = newList();
-    ListBlock *last = NULL;
-    for (int i = warriors; i >= 1; --i) {
-	p = insertValue(p, i);
-	if (i == warriors)
-	    last = p;
-	if (i == 1)
-	    last->next = p;
-    }
-
-    int i = 1;
-    while (p != NULL) {
-	p = p->next;
-	i++;
-	last = last->next;
-	if (i == n) {
-	    p = removeValue(p, last);
-	    i = 1;
-	}
-    }
-    k = last->value;
-    printf("Чтобы выжить, нужно стоять на %d месте\n", k);
     return 0;
 }

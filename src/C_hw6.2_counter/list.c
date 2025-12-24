@@ -2,96 +2,33 @@
 #include "list.h"
 
 
-ListBlock* newList(void)
+Node* createList(int n)
 {
-    return NULL;
+    Node *top = malloc(sizeof(Node));
+    top->value = 1;
+    Node *current = top;
+
+    for (int i = 2; i <= n; i++) {
+        current->next = malloc(sizeof(Node));
+        current = current->next;
+        current->value = i;
+    }
+
+    current->next = top;
+    return top;
 }
 
-
-ListBlock* insertValue(ListBlock *p, int value)
+void deleteList(Node *top)
 {
-    ListBlock *t = malloc(sizeof(ListBlock));
-    t->value = value;
-    if (p == NULL || t->value <= p->value) {
-	t->next = p;
-	p = t;
-	return p;
+    Node *current = top;
+    while (current->next != top) {
+        current = current->next;
     }
-
-/*    ListBlock *current = p->next;
-    ListBlock *prev = p;
-    while (current != NULL) {
-	if (t->value >= current->value) {
-	    prev->next = t;
-	    t->next = current;
-	    return p;
-	}
-	else {
-	    prev = current;
-	    current = current->next;
-	}
+    current->next = NULL;
+    current = top;
+    while(current != NULL) {
+        top = top->next;
+        free(current);
+        current = top;
     }
-
-    t->next = current;
-    prev->next = t;
-    return p;*/
-}
-
-
-ListBlock* removeValue(ListBlock *p, ListBlock *t)
-{
-    if (t->next == p && p->next == t) {
-	t->next = NULL;
-	free(p);
-	return NULL;
-    }
-    t->next = p->next;
-    free(p);
-    return t->next;
-    
-    /*ListBlock *next = NULL;
-    ListBlock *prev = NULL;
-    ListBlock *t = p;
-    while (t != NULL && t->value != value) {
-	prev = t;
-	t = t->next;
-    }
-
-    if (t == NULL) 
-	return p;
-
-    if (prev == NULL) {
-	next = t->next;
-	free(t);
-	return next;
-    }
-    else {
-	prev->next = t->next;
-	free(t);
-	return p;
-    }*/
-}
-
-
-void printList(ListBlock *p)
-{
-    ListBlock *t = p;
-    printf("Текущий список: \n");
-    while (t != NULL) {
-	printf("%d\n", t->value);
-	t = t->next;
-    }
-    printf("-------------------\n");
-}
-
-
-void deleteList(ListBlock *p)
-{
-    ListBlock *t;
-    while (p != NULL) {
-	t = p->next;
-	free(p);
-	p = t;
-    }
-    printf("Список удален\n");
 }
