@@ -1,22 +1,22 @@
+#pragma once
 #include <stdlib.h>
 
 
-typedef struct ListBlock {
+typedef struct ListNode {
     int value;
-    struct ListBlock *next;
-} ListBlock;
+    struct ListNode *next;
+} Node;
 
 
-ListBlock* newList(void);
+Node* newList(void);
+
+Node* insertValue(Node *p, int value);
 
 
-ListBlock* insertValue(ListBlock *p, int value);
+Node* removeValue(Node *p, int value);
 
 
-ListBlock* removeValue(ListBlock *p, int value);
+void printList(Node *p);
 
 
-void printList(ListBlock *p);
-
-
-void deleteList(ListBlock *p);
+void deleteList(Node *p);
