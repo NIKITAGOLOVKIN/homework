@@ -10,13 +10,13 @@ typedef struct ListNode {
 
 Node* newList(void);
 
-Node* insertValue(Node *p, int value);
+Node* insertValue(Node *top, int value);
 
 
-Node* removeValue(Node *p, int value);
+Node* removeValue(Node *top, int value);
 
 
-void printList(Node *p);
+void printList(Node *top);
 
 
-void deleteList(Node *p);
+void deleteList(Node *top);
