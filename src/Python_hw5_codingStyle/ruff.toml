@@ -1,0 +1,15 @@
+#lint.select = ["ALL"]
+
+#line-length = 120
+
+#fix = true
+
+#show-fixes = true
+
+#exclude = [
+#    ".git",
+#    "__pycache__",
+#    ".ruff_cache",
+#    "venv",
+#    "node_modules"
+#]
