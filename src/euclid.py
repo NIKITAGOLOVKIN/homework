@@ -1,6 +1,4 @@
 a, b = int(input('Введите число a ')), int(input('Введите число b '))
-ostatki, x, y = [], [], []
-q = 0
 if a == 0 or b == 0:
     if a == 0 and b == 0:
         print('Error!!!', 'Невозможно посчитать НОД для двух чисел равных 0')
@@ -11,27 +9,17 @@ if a == 0 or b == 0:
         print('НОД =', a)
         print('Разложение по алгоритму Евклида:', a, '*', 1, '+', b, '*', 0, '=', a)
 else:
-    ostatki.append(max(a, b))
-    ostatki.append(min(a, b))
-    x.append(1)
-    x.append(0)
-    y.append(0)
-    y.append(1)
-    i = 2
+    orig_a, orig_b = a, b
+    prev_r, r = a, b
+    prev_x, x = 1, 0
+    prev_y, y = 0, 1
 
+    while r:
+        q = prev_r // r
+        prev_r, r = r, prev_r - q * r
+        prev_x, x = x, prev_x - q * x
+        prev_y, y = y, prev_y - q * y
+    nod = prev_r
 
-    while ostatki[i-2] % ostatki[i-1] > 0:
-        q = ostatki[i-2] // ostatki[i-1]
-        ostatki.append(ostatki[i-2] - (q * ostatki[i-1]))      #Тут происходит сам алгоритм Евклида
-        x.append(x[i-2] - (q * x[i-1]))
-        y.append(y[i-2] - (q * y[i-1]))
-        i += 1
-
-
-    ostatki.append(ostatki[i-2] - (q * ostatki[i-1]))         #Проходим последнюю итерацию алгоритма вне цикла
-    x.append(x[i-2] - (q * x[i-1]))
-    y.append(y[i-2] - (q * y[i-1]))
-
-
-    print('НОД =', ostatki[-2])
-    print('Разложение по алгоритму Евклида:', ostatki[0], '*', x[-2], '+', ostatki[1], '*', y[-2], '=', ostatki[-2])
+    print('НОД =', nod)
+    print('Разложение по алгоритму Евклида:', orig_a, '*', prev_x, '+', orig_b, '*', prev_y, '=', nod)
